@@ -12,11 +12,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 public class DemoController {
 
-    private static int byeCount = 0 ;
+    private static int hiCount = 0 ;
+    private static int confCount = 0 ;
 
     // 注入配置文件上下文
     @Autowired
@@ -36,28 +38,29 @@ public class DemoController {
         // String value = applicationContext.getEnvironment().getgetProperty("user.name");
         Map<String,Object> map = applicationContext.getEnvironment().getSystemProperties();
         String str = "" ;
-        byeCount++ ;
-        System.out.println("sayBye() byeCount = "  + byeCount );
+        confCount++ ;
+        System.out.println("sayBye() confCount = "  + confCount );
         // System.out.println("sayBye() properities : " + str );
         return map ;
     }
 
     @GetMapping(value = {"/hi"})
-    public Map<String,String> hi() {
+    public ConcurrentHashMap<String,String> hi() {
         System.out.println("Running class full name : " + this.getClass().getCanonicalName());
         // String value = applicationContext.getEnvironment().getProperty("user.name");
         // String value = applicationContext.getEnvironment().getgetProperty("user.name");
-        Map<String,String> map = new HashMap<>();
+        ConcurrentHashMap<String,String> map = new ConcurrentHashMap<String,String>();
         String str = "" ;
-        byeCount++ ;
-        System.out.println("sayBye() byeCount = "  + byeCount );
+        hiCount++ ;
+        System.out.println("hi() hiCount = "  + hiCount );
 
+        // DateTimeFormatter , LocalDateTime 是线程安全的
         LocalDateTime ldt=LocalDateTime.now();
         DateTimeFormatter format=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss SSS");
         String timeStr=ldt.format(format);
         map.put("now_time",timeStr);
         map.put("time_stamp", "" + System.currentTimeMillis()) ;
-        map.put("click_count", "" + byeCount) ;
+        map.put("click_count", "" + hiCount) ;
 
         return map ;
 
