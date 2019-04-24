@@ -11,14 +11,12 @@
     <groupId>com.gg</groupId>
     <artifactId>jenkins-demo</artifactId>
     <version>1.0.0</version>
-    <name>demo_web</name>
-    <description>Demo project for Spring Boot</description>
+    <name>jenkins-demo</name>
+    <description>jenkins-demo project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
-        <skipTests>true</skipTests>
-        <docker.repostory>registry.cn-hangzhou.aliyuncs.com</docker.repostory>
-        <docker.registry.name>viiso</docker.registry.name>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
@@ -48,24 +46,27 @@
 
             <plugin>
                 <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.10</version>
                 <executions>
                     <execution>
                         <id>default</id>
                         <goals>
-                            <goal>build</goal>
+                        <goal>build</goal>
+                        <!--<goal>push</goal>-->
                         </goals>
-                        <configuration>
-                            <repository>web-demo</repository>
-                            <tag>1.0</tag>
-
-                            <buildArgs>
-                                <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-                            </buildArgs>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <repository>demo-web</repository>
+                    <tag>1.0</tag>
+                    <buildArgs>
+                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
+
             </plugin>
+
         </plugins>
     </build>
 
