@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <skipTests>true</skipTests>
         <docker.repostory>registry.cn-hangzhou.aliyuncs.com</docker.repostory>
         <docker.registry.name>viiso</docker.registry.name>
     </properties>
@@ -44,7 +45,7 @@
                 <directory>src/main/docker</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>**/Dockerfile</include>
+                    <include>Dockerfile</include>
                 </includes>
                 <targetPath>../docker</targetPath>
             </resource>
@@ -73,9 +74,20 @@
                         <goals>
                             <goal>tag</goal>
                         </goals>
+
                         <configuration>
                             <image>${docker.registry.name}/${project.artifactId}:${project.version}</image>
                             <newName>${docker.repostory}/${docker.registry.name}/${project.artifactId}:${project.version}</newName>
+
+                            <imageName>${project.artifactId}</imageName>
+                            <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+                            <resources>
+                                <resource>
+                                    <targetPath>/</targetPath>
+                                    <directory>${project.build.directory}</directory>
+                                    <include>${project.build.finalName}.jar</include>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                     <execution>
